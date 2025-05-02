@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Check Phone Number Status</title>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: url('https://www.w3schools.com/w3images/nature.jpg') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      background-color: rgba(255, 255, 255, 0.88);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      text-align: center;
+      max-width: 450px;
+      width: 90%;
+    }
+
+    h2 {
+      margin-bottom: 15px;
+      color: #333;
+    }
+
+    .note {
+      font-size: 14px;
+      text-align: left;
+      background-color: #fff8dc;
+      padding: 10px;
+      border-left: 5px solid #ff9800;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      color: #333;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-weight: bold;
+      padding: 10px;
+      border-radius: 8px;
+      color: white;
+    }
+
+    .result.scam {
+      background-color: #f44336; /* Red background for SCAM */
+    }
+
+    .result.safe {
+      background-color: #4CAF50; /* Green background for safe or not found */
+    }
+
+    footer {
+      width: 100%;
+      text-align: center;
+      padding: 15px 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      position: absolute;
+      bottom: 0;
+      font-size: 14px;
+    }
+
+    footer a {
+      color: #ff9800;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Check Phone Number Status</h2>
+
+    <div class="note">
+      <strong>ចំណាំ!</strong> នៅពេលឆែកលេខ មិនបាច់ដាក់លេខ (0) ទេ<br>
+      នៅពេលមាន ពាក្យថា <strong>SCAM</strong> មានន័យថា Client ធ្លាប់លេង អ្នកអាច សម្លាប់បាន<br><br>
+      <strong>Note!</strong> When checking the number, there's no need to include the digit (0).<br>
+      When you see the word <strong>SCAM</strong>, it means the client has played before — you may kill them.
+    </div>
+
+    <input type="text" id="phone" placeholder="e.g. 85777288822">
+    <button onclick="searchResult()">Search</button>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    function searchResult() {
+      const phone = document.getElementById("phone").value.trim();
+      const url = 'https://script.google.com/macros/s/AKfycbxedId5mH-fRk59eMAk2hupp2jsodNsgJ5Xq2Z2P9jNLdeGQdvgJ4K7uJX8pDOt-AFA/exec?phone=' + encodeURIComponent(phone);
+
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          const resultDiv = document.getElementById("result");
+
+          if (data.result) {
+            resultDiv.textContent = data.result;
+
+            if (data.result.toUpperCase().includes("SCAM")) {
+              resultDiv.className = "result scam"; // red
+            } else {
+              resultDiv.className = "result safe"; // green
+            }
+
+          } else {
+            resultDiv.textContent = "Not found";
+            resultDiv.className = "result safe"; // green
+          }
+        })
+        .catch(error => {
+          const resultDiv = document.getElementById("result");
+          resultDiv.textContent = "An error occurred while fetching data.";
+          resultDiv.className = "result scam"; // red
+        });
+    }
+  </script>
+
+  <footer>
+    &copy; 2025 Admin Owner 索菲克 Sopheak. All rights reserved. |
+    <a href="#">Privacy Policy</a> |
+    <a href="#">Terms and Conditions</a>
+  </footer>
+</body>
+</html>
